@@ -1,0 +1,35 @@
+{
+  "name": "redflow",
+  "version": "1.0.0",
+  "description": "our own version of flux architecture with inmutable data",
+  "main": "index.js",
+  "keywords": [
+    "inmutable",
+    "mori",
+    "react",
+    "flux"
+  ],
+  "author": "redradix",
+  "license": "ISC",
+  "scripts": {
+    "jsx": "mkdir -p ./tmp && ./node_modules/.bin/jsx ./src/ ./tmp/",
+    "bundle": "mkdir -p ./dist && node ./node_modules/.bin/webmake --sourcemap ./tmp/app.js ./dist/bundle.js",
+    "build-all": "npm run jsx && npm run bundle  && npm run clean",
+    "clean": "rm -rf ./tmp",
+    "server": "./node_modules/.bin/statik --port 3000 .",
+    "watch": "npm run build-all; ./node_modules/.bin/onchange 'src/**/*.js' -- npm run build-all",
+    "start": "npm run watch & npm run server"
+  },
+  "devDependencies": {
+    "onchange": "0.0.2",
+    "statik": "^1.4.6"
+  },
+  "dependencies": {
+    "eventemitter2": "^0.4.14",
+    "react-tools": "^0.12.2",
+    "mori": "^0.3.2",
+    "page": "^1.6.2",
+    "react": "~0.12.2",
+    "webmake": "^0.3.36"
+  }
+}
