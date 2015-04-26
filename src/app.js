@@ -4,13 +4,18 @@ var _ = require("mori"),
     page = require("page"),
     routes = require("./routes"),
     initialState = require("./config/initial_state"),
-    RootComponent = require("./components/root");
+    RootComponent = require("./components/root"),
+    TodoStore = require("./stores/todos");
 
 
 window.onload = function() {
   // initialize initial state on atom
   atom.silentSwap(_.toClj(initialState));
-  window.atom = atom;
+  /** UNCOMMENT FOR DEBUGGING **/
+  // window.atom = atom;
+  // window._ = _;
+  /** REMOVE ABOVE LINES IN PRODUCTION!!! **/
+
   // set subdomain
   page.base(window.location.pathname);
 
@@ -18,7 +23,16 @@ window.onload = function() {
   for (var route in routes) if (routes.hasOwnProperty(route)) {
     page.apply(null, [route].concat(routes[route]));
   };
-  page({hashbang: true});
+  //Uncomment for hash-based navigation, otherwise HTML5 History API will be used
 
-  setTimeout(React.render.bind(React, (<RootComponent/>), document.body), 100);
+  //page({hashbang: true});
+
+  //Start routing
+  page();
+
+  React.render(<RootComponent/>, document.getElementById("todoapp"));
+
+  //just for debugging, add 1000 random todo items :)
+  //we're not using an Action because this is an internal hack
+  //TodoStore.addRandomItems();
 };
