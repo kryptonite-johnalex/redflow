@@ -9,7 +9,7 @@ var MainLayout = React.createClass({
     var s = this.props.state;
     return (
       <div>
-        <Header />
+        <Header state={s} />
         <TodoList state={s} />
         <Footer state={s} />
       </div>

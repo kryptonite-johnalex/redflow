@@ -4,6 +4,21 @@ var atom = require("../lib/atom_state"),
     Dispatcher = require("../lib/dispatcher"),
     Actions = require("../config/actions");
 
+/**
+
+A Store deals with one domain has two main responsibilites:
+
+1) It acts as a facade to the full atom, via query method.
+   Basically these mean "getXXXX" from this version of the atom.
+
+2) Listen to Dispatcher messages/actions and update the atom
+
+**/
+
+/**
+This configures the path in the atom tree this
+Store will be querying/modifying
+**/
 var s = {
   todos: ["data", "todos"]
 }
@@ -17,7 +32,7 @@ var pending = 1000,
 /** Creates a new todo hashmap with a random id **/
 function createTodo(text){
   //var newId = (new Date().valueOf() + Math.floor(Math.random()*9999)).toString(16);
-  //simpler step, avoid duplicate ids
+  //simpler step, avoid duplicate ids when adding 1000 very fast
   var newId = _.count(atom.getIn(s.todos));
   return _.hashMap("id", newId, "completed", false, "text", text);
 }
@@ -97,6 +112,12 @@ var TodosStore = {
     the current subtree and should *return* the new one
     **/
     atom.updateIn(s.todos, function(list){
+      /**
+      If we simply add a new item to a vector using mori.conj()
+      it will be pushed at the end. Instead, we create a new vector
+      containing the new item, and concatenate the new with the old one
+      using mori.into(col1, col2)
+      **/
       var newTodo = _.vector(createTodo(todoText));
       //append at list beginning
       return _.into(newTodo, list);

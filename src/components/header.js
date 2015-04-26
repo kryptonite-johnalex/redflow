@@ -3,6 +3,9 @@ var React = require("react"),
     TodoCreate = require("./todocreate");
 
 module.exports = React.createClass({
+  propTypes: {
+    state: React.PropTypes.object.isRequired
+  },
   render: function(){
     return (
       <header id="header">
