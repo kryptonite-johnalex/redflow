@@ -1,13 +1,21 @@
-var utils = require("../lib/utils"),
-    _ = require("mori");
-
-function times(n, fn) {
-  var results = [];
-  for (var i = 0; i < n; i++) {
-    results.push(fn(i));
-  }
-  return results;
-}
-
 module.exports = {
+  routes: {
+    //current active page
+    page: "all"
+  },
+  data: {
+    //list of todos, we have no backend so start with these two
+    todos: [
+      {
+        id: 0,
+        completed: false,
+        text: "Learn RedFlow"
+      },
+      {
+        id: 1,
+        completed: true,
+        text: "Find a nice React architecture :)"
+      }
+    ]
+  }
 };

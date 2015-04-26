@@ -75,4 +75,11 @@ module.exports = {
   not: function(p) {
     return function() { return !p.apply(this, arguments); };
   },
+  times: function(n, fn) {
+    var results = [];
+    for (var i = 0; i < n; i++) {
+      results.push(fn(i));
+    }
+    return results;
+  }
 };

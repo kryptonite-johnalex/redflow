@@ -1,18 +1,21 @@
 var atom = require("../lib/atom_state"),
     _ = require("mori"),
-    dispatcherMessages= require("../lib/dispatcher").messages,
-    listen = require("../lib/dispatcher").listen;
+    todoActions = require("../config/actions"),
+    Dispatcher = require("../lib/dispatcher");
 
 var s = {
-  page: ['routes', 'page']
+  page: ["routes", "page"]
 };
 
 module.exports = {
-  setActivePage: listen(dispatcherMessages.SET_PAGE, function(page) {
-    atom.assocIn(s.page, page);
+  /** Sets the active page in the atom **/
+  setActivePage: Dispatcher.listen(todoActions.SET_PAGE, function(page) {
+    return atom.assocIn(s.page, page);
   }),
+
+  /** Retrives the active page in this specific state **/
   getActivePage: function(state) {
     state = state || atom.get();
     return _.getIn(state, s.page);
   }
-}
+};
