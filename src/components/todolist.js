@@ -48,9 +48,11 @@ var TodoList = React.createClass({
         items = this.renderItemsForPage(s, activePage);
 
     return (
-      <ul id="todo-list">
-        {items}
-      </ul>
+      <div id="main">
+        <ul id="todo-list">
+          {items}
+        </ul>
+      </div>
     );
   }
 });
