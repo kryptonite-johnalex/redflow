@@ -12,24 +12,29 @@
   "author": "redradix",
   "license": "ISC",
   "scripts": {
-    "jsx": "mkdir -p ./tmp && ./node_modules/.bin/jsx ./src/ ./tmp/",
-    "bundle": "mkdir -p ./dist && node ./node_modules/.bin/webmake --sourcemap ./tmp/app.js ./dist/bundle.js",
-    "build-all": "npm run jsx && npm run bundle  && npm run clean",
-    "clean": "rm -rf ./tmp",
-    "server": "./node_modules/.bin/statik --port 3000 .",
-    "watch": "npm run build-all; ./node_modules/.bin/onchange 'src/**/*.js' -- npm run build-all",
-    "start": "npm run watch & npm run server"
+    "jsx": "npm run mkdir_tmp && jsx ./src/ ./tmp/",
+    "bundle": "npm run mkdir_dist && webmake --sourcemap ./tmp/app.js ./dist/bundle.js",
+    "build-all": "npm run jsx && npm run bundle && npm run clean",
+    "clean": "rimraf ./tmp",
+    "server": "statik --port 2999 .",
+    "watch": "onchange 'src/**/*.js' -- npm run build-all",
+    "mkdir_tmp": "mkdirp ./tmp",
+    "mkdir_dist": "mkdirp ./dist",
+    "dev": "npm run server & npm run watch",
+    "start": "npm run build-all && npm run dev"
   },
   "devDependencies": {
-    "onchange": "0.0.2",
+    "onchange": "1.1.0",
     "statik": "^1.4.6"
   },
   "dependencies": {
     "eventemitter2": "^0.4.14",
-    "react-tools": "^0.12.2",
+    "mkdirp": "^0.5.0",
     "mori": "^0.3.2",
     "page": "^1.6.2",
-    "react": "~0.12.2",
+    "react": "~0.13.3",
+    "react-tools": "^0.12.2",
+    "rimraf": "^2.3.3",
     "webmake": "^0.3.36"
   }
 }
