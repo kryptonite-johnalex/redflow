@@ -19,7 +19,7 @@ module.exports = {
     return function() {
       var args = arguments, ctx = this;
       clearTimeout(id);
-      id = setTimeout(function() { fn.apply(ctx, arguments); }, ms);
+      id = setTimeout(function() { fn.apply(ctx, args); }, ms);
     };
   },
   extend: function(obj) {
