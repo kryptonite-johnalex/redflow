@@ -16,7 +16,7 @@
     "bundle": "npm run mkdir_dist && webmake --sourcemap ./tmp/app.js ./dist/bundle.js",
     "build-all": "npm run jsx && npm run bundle && npm run clean",
     "clean": "rimraf ./tmp",
-    "server": "statik --port 2999 .",
+    "server": "statik --port 3000 .",
     "watch": "onchange 'src/**/*.js' -- npm run build-all",
     "mkdir_tmp": "mkdirp ./tmp",
     "mkdir_dist": "mkdirp ./dist",
