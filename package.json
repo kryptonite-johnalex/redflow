@@ -21,9 +21,17 @@
     "mkdir_tmp": "mkdirp ./tmp",
     "mkdir_dist": "mkdirp ./dist",
     "dev": "npm run server & npm run watch",
-    "start": "npm run build-all && npm run dev"
+    "start": "npm run build-all && npm run dev",
+    "test": "jest",
+    "tdd": "onchange 'src/**/*.js' -- npm run test"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "rootDir": "./src",
+    "scriptPreprocessor": "__tests__utils/jest.preprocessor.js"
   },
   "devDependencies": {
+    "jest-cli": "^0.4.3",
     "onchange": "1.1.0",
     "statik": "^1.4.6"
   },

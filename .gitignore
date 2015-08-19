@@ -3,4 +3,5 @@ npm-debug.log
 .module-cache/
 /tmp
 /dist
+/coverage
 .DS_Store
