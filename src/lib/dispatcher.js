@@ -32,15 +32,18 @@ dispatcher.messages = {
   SET_PAGE: "PAGE:SET"
 }
 
-dispatcher.emit = dispatcher.emit.bind(dispatcher);
+//dispatcher.emit = dispatcher.emit.bind(dispatcher);
 
-// // just for debug. uncomment prev line and remove this for prod.
-// dispatcher.emit = (function(emit) {
-//   return function() {
-//     var args = [].slice.call(arguments);
-//     //console.log.apply(console, ['dispatching: '].concat(args));
-//     return emit.apply(dispatcher, args);
-//   };
-// })(dispatcher.emit);
+// just for debug. uncomment prev line and remove this for prod.
+dispatcher.emit = (function(emit) {
+  return function() {
+    var args = [].slice.call(arguments);
+    if(!args[0]) {
+      throw new Error('Dispatcher.emit without message');
+    }
+    //console.log.apply(console, ['dispatching: '].concat(args));
+    return emit.apply(dispatcher, args);
+  };
+})(dispatcher.emit);
 
 module.exports = dispatcher;

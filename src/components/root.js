@@ -18,18 +18,22 @@ var Root = React.createClass({
   },
   _onChange: function() {
     //for performance purposes
-    beginUpdate = +new Date();
+    //beginUpdate = +new Date();
     this.forceUpdate();
   },
   //Just for debugging - measure full re-render time
   componentDidUpdate: function(prevProps, prevState) {
-    console.log("Update done in ", +new Date()-beginUpdate, "ms");
+    //console.log("Update done in ", +new Date()-beginUpdate, "ms");
   },
   render: function() {
     var state = atom.get(),
         currentPage = rootStore.getActivePage(state),
         Layout = layouts.main;
-    return (<Layout state={state}/>);
+    return (
+      <div>
+        <Layout state={state}/>
+      </div>
+    );
   }
 });
 

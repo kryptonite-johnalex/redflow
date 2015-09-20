@@ -7,7 +7,7 @@ module.exports = {
     //list of todos, we have no backend so start with these two
     todos: [
       {
-        id: 0,
+        id: 2,
         completed: false,
         text: "Learn RedFlow"
       },

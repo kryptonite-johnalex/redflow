@@ -9,8 +9,8 @@ var s = {
 
 module.exports = {
   /** Sets the active page in the atom **/
-  setActivePage: Dispatcher.listen(todoActions.SET_PAGE, function(page) {
-    return atom.assocIn(s.page, page);
+  setActivePage: Dispatcher.listen(todoActions.SET_PAGE, function(payload) {
+    return atom.assocIn(s.page, payload.page);
   }),
 
   /** Retrives the active page in this specific state **/

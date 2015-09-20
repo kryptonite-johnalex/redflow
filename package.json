@@ -33,6 +33,7 @@
   "devDependencies": {
     "jest-cli": "^0.4.3",
     "onchange": "1.1.0",
+    "react-json-tree": "^0.1.9",
     "statik": "^1.4.6"
   },
   "dependencies": {

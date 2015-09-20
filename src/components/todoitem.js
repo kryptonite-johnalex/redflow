@@ -109,7 +109,7 @@ var TodoItem = React.createClass({
   },
   _save: function(newText){
     var todoId = _.get(this.props.todo, "id");
-    Dispatcher.emit(TodoActions.TODO_UPDATE, todoId, newText);
+    Dispatcher.emit(TodoActions.TODO_UPDATE, { id: todoId, text: newText });
     this.setState({
       isEditing: false
     });
@@ -121,11 +121,11 @@ var TodoItem = React.createClass({
   },
   _toggle: function(){
     var todoId = _.get(this.props.todo, "id");
-    Dispatcher.emit(TodoActions.TODO_TOGGLE, todoId);
+    Dispatcher.emit(TodoActions.TODO_TOGGLE, { id: todoId });
   },
   _destroy: function(){
     var todoId = _.get(this.props.todo, "id");
-    Dispatcher.emit(TodoActions.TODO_DELETE, todoId);
+    Dispatcher.emit(TodoActions.TODO_DELETE, { id: todoId });
   }
 });
 

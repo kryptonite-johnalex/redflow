@@ -4,6 +4,8 @@
 module.exports = {
   //Changes the current page
   SET_PAGE: "PAGE:SET",
+  //Loads Todos from initialState
+  TODO_LOAD: "TODO:LOAD",
   //Creates a new todo
   TODO_ADD: "TODO:ADD",
   //Updates a todo's text

@@ -31,7 +31,7 @@ var TodoCreate = React.createClass({
     );
   },
   _save: function(todoText){
-    Dispatcher.emit(Actions.TODO_ADD, todoText);
+    Dispatcher.emit(Actions.TODO_ADD, { text: todoText });
   }
 });
 

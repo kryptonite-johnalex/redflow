@@ -7,8 +7,9 @@ var page = require("page"),
 
 function setPage(page) {
   return function(ctx, next) {
+    console.log('Routes setPage', page);
     ctx.handled = true;
-    Dispatcher.emit(Actions.SET_PAGE, page);
+    Dispatcher.emit(Actions.SET_PAGE, { page: page });
     next();
   }
 }
