@@ -23,7 +23,8 @@ var listStyle = {
   listStyleType: 'none',
   margin: 0,
   padding: 0,
-  maxHeight: '100%',
+  maxHeight: '99%',
+  paddingBottom: '10px',
   overflowY: 'scroll'
 }
 

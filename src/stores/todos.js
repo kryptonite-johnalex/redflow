@@ -99,14 +99,12 @@ var TodosStore = {
   /** Actions Listeners **/
   //Loads todos from Local Storage
   loadTodos: Dispatcher.listen(Actions.TODO_LOAD, function(){
-    console.log('Loading todos');
     var savedTodos = loadFromLocalStorage();
     if(savedTodos.length)
       atom.assocIn(s.todos, _.toClj(savedTodos));
   }),
   //Creates a new todo item with the given todoText
   addTodo: Dispatcher.listen(Actions.TODO_ADD, function(payload){
-    console.log('Add todo', payload);
     var todoText = payload.text;
     /**
     atom.updateIn replaces a full subtree of the atom
@@ -130,7 +128,6 @@ var TodosStore = {
   updateTodo: Dispatcher.listen(Actions.TODO_UPDATE, function(payload){
     var todoId = payload.id,
         todoText = payload.text;
-    console.log('Update todo', payload);
     atom.updateIn(s.todos, function(list){
       /** We simply map the collection back, changing only the specific item **/
       return _.map(function(item){
@@ -146,7 +143,6 @@ var TodosStore = {
   }),
   //Toggles the todo with id {todoId} "completed" state
   toggleTodo: Dispatcher.listen(Actions.TODO_TOGGLE, function(payload){
-    console.log('Toggle todo', payload);
     var todoId = payload.id;
     atom.updateIn(s.todos, function(list){
       return _.map(function(item){
@@ -162,7 +158,6 @@ var TodosStore = {
   }),
   //Removes a todo from the list, by its id
   removeTodo: Dispatcher.listen(Actions.TODO_DELETE, function(payload){
-    console.log('Remove todo', payload);
     var todoId = payload.id;
     atom.updateIn(s.todos, function(list){
       /** For removal, we replace the collection with a new one
@@ -175,7 +170,6 @@ var TodosStore = {
   }),
   //Removes every completed todo from the list
   removeAllCompleted: Dispatcher.listen(Actions.TODO_CLEAR_COMPLETED, function(){
-    console.log('Clear completed');
     atom.updateIn(s.todos, function(list){
       return _.filter(function(item){
         return _.get(item, "completed") === false;

@@ -57,7 +57,7 @@ function interceptDispatcher(){
       _emit(type, originalAction);
       return;
     }
-    console.log('Dispatcher emit', type, originalAction);
+    // create a replayable action
     var action = {
       id: _.count(actions),
       type: type,
@@ -68,6 +68,7 @@ function interceptDispatcher(){
       postState: null,
       diff: null
     };
+    // dispatch original
     try {
       _emit(type, originalAction);
     }
