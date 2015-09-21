@@ -1,7 +1,9 @@
+'use strict';
 var React = require('react'),
     _ = require('mori'),
     dispatcher = require('../../dispatcher'),
     devState = require('../dev_state'),
+    CollapsedPanel = require('./collapsed'),
     DevActions = require('./dev_actions'),
     ActionItem = require('./action_item');
 
@@ -29,6 +31,16 @@ var listStyle = {
 }
 
 var DevPanel = React.createClass({
+  getDefaultProps: function() {
+    return {
+      collapsed: false
+    };
+  },
+  getInitialState: function() {
+    return {
+      collapsed: this.props.collapsed
+    };
+  },
   componentDidMount: function() {
     devState.addChangeListener(this.forceUpdate.bind(this));
   },
@@ -50,6 +62,14 @@ var DevPanel = React.createClass({
   onActionLoadState: function(){
     dispatcher.emit(devState.actionTypes.DEV_LOAD);
   },
+  onActionHide: function(e){
+    e.preventDefault();
+    this.setState({ collapsed: true });
+  },
+  onCollapsedPanelClick: function(e){
+    e.preventDefault();
+    this.setState({ collapsed: false });
+  },
   renderActions: function(actions){
     var self = this;
     return actions.map(function(devAction){
@@ -59,7 +79,7 @@ var DevPanel = React.createClass({
         onActionClick={self.onActionClick} />
     });
   },
-  render: function(){
+  renderFullPanel: function(){
     var actions = devState.getActions();
     return (
       <div style={ panelStyle }>
@@ -68,12 +88,25 @@ var DevPanel = React.createClass({
           onUndo={ this.onActionUndo }
           onRedo={ this.onActionRedo }
           onPersistState={ this.onActionPersistState }
-          onLoadState={ this.onActionLoadState }/>
+          onLoadState={ this.onActionLoadState }
+          onHideClick={ this.onActionHide } />
         <ul style={ listStyle }>
           { this.renderActions(actions) }
         </ul>
       </div>
     );
+  },
+  renderCollapsedPanel: function(){
+    return <CollapsedPanel onPanelClick={ this.onCollapsedPanelClick } />;
+  },
+  render: function(){
+    var isCollapsed = this.state.collapsed;
+    if(isCollapsed){
+      return this.renderCollapsedPanel();
+    }
+    else {
+      return this.renderFullPanel();
+    }
   }
 });
 

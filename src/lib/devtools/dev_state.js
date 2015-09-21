@@ -20,6 +20,7 @@ var listeners = [];
 var lastState;
 var initialState;
 var _rebuilding = false;
+var _emit = dispatcher.emit.bind(dispatcher);
 
 function notify(){
   listeners.forEach(function(cb){
@@ -50,8 +51,6 @@ function isDevAction(type){
 }
 
 function interceptDispatcher(){
-  var _emit = dispatcher.emit.bind(dispatcher);
-
   dispatcher.emit = function(type, originalAction){
     if(type === 'newListener' || isDevAction(type) || _rebuilding){
       _emit(type, originalAction);
@@ -63,7 +62,6 @@ function interceptDispatcher(){
       type: type,
       action: originalAction,
       skip: false,
-      prevState: atom.get(),
       error: null,
       postState: null,
       diff: null
@@ -87,11 +85,21 @@ function interceptDispatcher(){
 function rebuildState(){
   atom.silentSwap(initialState);
   _rebuilding = true;
-  _.each(actions, function(replayableAction){
+  actions = _.into(_.vector(), _.map(function(replayableAction){
     if(!replayableAction.skip){
-      dispatcher.emit(replayableAction.type, replayableAction.action);
+      try {
+        _emit(replayableAction.type, replayableAction.action);
+      }
+      catch(err){
+        replayableAction.error = err;
+      }
+      finally {
+        replayableAction.postState = atom.get();
+        replayableAction.diff = getStateDiff(atom.get());
+      }
     }
-  });
+    return replayableAction;
+  }, actions));
   _rebuilding = false;
   //force ui update
   atom.swap(atom.get());
@@ -112,7 +120,6 @@ module.exports = {
   applyAction: dispatcher.listen(devActions.DEV_APPLY, function(payload){
     var id = payload.id;
     var action = _.nth(actions, id);
-    console.log('Commit action', action.id, action.type, action.action);
     action.skip = false;
     actions = _.assoc(actions, id, action);
     rebuildState();
@@ -121,7 +128,6 @@ module.exports = {
   skipAction: dispatcher.listen(devActions.DEV_SKIP, function(payload){
     var id = payload.id;
     var action = _.nth(actions, id);
-    console.log('Skip action', action.id, action.type, action.action);
     action.skip = true;
     actions = _.assoc(actions, id, action);
     rebuildState();

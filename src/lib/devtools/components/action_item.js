@@ -23,7 +23,7 @@ var ActionItem = React.createClass({
     return (
       <div>
         <JSONTree keyName='action' data={a.action || {} } />
-        <JSONTree keyName='state changes' data={_.toJs(a.diff) } />
+        <JSONTree keyName='changed' data={_.toJs(a.diff) } />
         <JSONTree keyName='state' data={_.toJs(a.postState) } />
       </div>
     );

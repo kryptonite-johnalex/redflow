@@ -55,6 +55,7 @@ var DevActions = React.createClass({
 
         <button style={buttonStyle} onClick={this.handlePersist}>PERSIST STATE</button>
         <button style={buttonStyle} onClick={this.handleLoad}>LOAD STATE</button>
+        <button style={buttonStyle} onClick={this.props.onHideClick}>HIDE &gt;</button>
       </div>
     );
   }

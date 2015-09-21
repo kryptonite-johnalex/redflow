@@ -36,6 +36,10 @@ var TodoItem = React.createClass({
     return !_.equals(this.props.todo, nextProps.todo) ||
       this.state !== nextState;
   },
+  //this added only for devtools demo
+  componentWillReceiveProps: function(nextProps) {
+    this.setState({ text: _.get(nextProps.todo, "text") });
+  },
   /**
   When an update occurs because of this.setState() calls or
   because the previos predicate returned true, React will

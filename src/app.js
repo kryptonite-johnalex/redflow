@@ -37,7 +37,7 @@ window.onload = function() {
   React.render(<RootComponent/>, document.getElementById("todoapp"));
 
   //DEBUG ONLY render devpanel
-  React.render(<DevPanel />, document.getElementById("devtools"));
+  React.render(<DevPanel collapsed={true}/>, document.getElementById("devtools"));
 
   //just for debugging, add 1000 random todo items :)
   //we're not using an Action because this is an internal hack
