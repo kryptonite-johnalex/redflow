@@ -15,7 +15,8 @@ var buttonStyle = {
   color: '#fff',
   padding: '4px',
   marginRight: '4px',
-  cursor: 'pointer'
+  cursor: 'pointer',
+  borderRadius: '5px'
 }
 
 var DevActions = React.createClass({

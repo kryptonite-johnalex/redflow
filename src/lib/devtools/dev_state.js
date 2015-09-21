@@ -12,7 +12,8 @@ var devActions = {
   DEV_UNDO: '@@DEV_UNDO',
   DEV_REDO: '@@DEV_REDO',
   DEV_PERSIST: '@@DEV_PERSIST',
-  DEV_LOAD: '@@DEV_LOAD'
+  DEV_LOAD: '@@DEV_LOAD',
+  DEV_CLOSE: '@@DEV_CLOSE'
 }
 
 var actions = _.vector();
@@ -82,6 +83,10 @@ function interceptDispatcher(){
   }
 }
 
+function restoreDispatcher(){
+  dispatcher.emit = _emit;
+}
+
 function rebuildState(){
   atom.silentSwap(initialState);
   _rebuilding = true;
@@ -106,9 +111,11 @@ function rebuildState(){
 }
 
 module.exports = {
+  //DevTools Store queries
   getActions: function(){
     return _.intoArray(_.reverse(actions));
   },
+  //DevTools Store commands
   toggleAction: dispatcher.listen(devActions.DEV_TOGGLE, function(action){
     if(action.skip){
       this.applyAction(action);
@@ -136,7 +143,6 @@ module.exports = {
 
   //stores current atom as initialState for replay
   commit: dispatcher.listen(devActions.DEV_COMMIT, function(){
-    console.log('DevState - initialState updated');
     initialState = atom.get();
     actions = _.vector();
     notify();
@@ -179,10 +185,19 @@ module.exports = {
     }
   }),
 
+  close: dispatcher.listen(devActions.DEV_CLOSE, function(){
+    restoreDispatcher();
+    initialState = null;
+    lastState = null;
+    actions = null;
+  }),
+  //export action constants for DevTools component
   actionTypes: devActions,
+  //classic flux
   addChangeListener: function(cb){
     listeners.push(cb);
   },
+  //intercepts the dispatcher to record actions
   setup: function(){
     interceptDispatcher();
   }
